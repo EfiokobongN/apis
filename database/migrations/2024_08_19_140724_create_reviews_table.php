@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->string('customer');
             $table->text('review');
-            $table->integer('star');
+            $table->integer('star')->unsigned()->default(0);
             $table->timestamps();
         });
     }
