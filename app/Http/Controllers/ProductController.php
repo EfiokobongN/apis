@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::all(); 
+        $products = Product::paginate(10); 
         return new ProductCollection($products);//ProductCollection::collection(Product::all()); // to Show All Product Available
     }
 
