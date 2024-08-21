@@ -10,6 +10,11 @@ use App\Http\Resources\Product\ProductResource;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index', 'show', 'store', 'create');
+    }
+   
     /**
      * Display a listing of the resource.
      */
@@ -34,6 +39,14 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         //
+        $product = new Product;
+        $product->name = $request->name;
+        $product->detail = $request->description;
+        $product->stock = $request->stock;
+        $product->price = $request->price;
+        $product->discount = $request->discount;
+        $product->save();
+        return $request->all();
     }
 
     /**
