@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('index', 'show', 'store', 'create', 'update');
+        $this->middleware('auth:api')->except('index', 'show', 'store', 'create', 'update', 'destroy');
     }
    
     /**
@@ -90,5 +90,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        $product->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
