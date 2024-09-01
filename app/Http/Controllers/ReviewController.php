@@ -6,10 +6,15 @@ use App\Models\Review;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Http\Resources\ReviewResource;
-use App\Models\Product;
+use App\Models\Product;use Illuminate\Http\Response;
+
 
 class ReviewController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth:api')->except('index', 'show', 'store', 'create', 'update', 'destroy');
+
+    }
     /**
      * Display a listing of the resource.
      */
@@ -30,9 +35,20 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReviewRequest $request)
+    public function store(StoreReviewRequest $request, Product $product)
     {
         //
+        $review = new Review;
+        $review->customer = $request->customer;
+        $review->product_id = $product->id;
+        $review->star = $request->Rate;
+        $review->review = $request->Message;
+        $review->save();
+
+        return response([
+            'data' => new ReviewResource($review)
+        ],Response::HTTP_CREATED);
+
     }
 
     /**
