@@ -83,8 +83,11 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Review $review)
+    public function destroy(Product $product, Review $review)
     {
         //
+        $review->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
