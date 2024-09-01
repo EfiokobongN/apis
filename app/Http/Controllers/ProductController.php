@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except('index', 'show', 'store', 'create');
+        $this->middleware('auth:api')->except('index', 'show', 'store', 'create', 'update');
     }
    
     /**
@@ -76,7 +76,12 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         //
-        return $request->all();
+        $request['detail'] = $request->description;
+        unset($request['description']);
+        $product->update($request->all());
+        return response([
+            'data' => new ProductResource($product)
+        ],Response::HTTP_OK);
     }
 
     /**
